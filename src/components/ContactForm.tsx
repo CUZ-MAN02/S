@@ -41,7 +41,7 @@ export default function ContactForm() {
       if (insertError) throw insertError;
 
       // 2. Invio email tramite Formspree (servizio gratuito per invio email da frontend)
-      const response = await fetch("https://formspree.io/f/sardiniarent@gmail.com", {
+      const response = await fetch("https://formspree.io/f/mreyenar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

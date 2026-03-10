@@ -56,8 +56,7 @@ export default function Boat() {
             <img
               src="/immages/R.jfif"
               alt="Riva Bravo 38"
-              className="w-full h-[500px] object-cover"
-              style={{ objectPosition: '70% center' }}
+              className="w-full h-[350px] sm:h-[500px] object-cover object-center sm:object-[70%_center]"
             />
           </div>
 
