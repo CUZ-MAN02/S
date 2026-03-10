@@ -1,23 +1,26 @@
 import { Quote } from 'lucide-react';
-
-const testimonials = [
-  {
-    text: "Un modo unico di scoprire la Sardegna. Barca bellissima e organizzazione impeccabile.",
-    author: "Marco",
-  },
-  {
-    text: "Esperienza elegante, rilassante e perfetta per una giornata speciale.",
-    author: "Laura",
-  },
-];
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Testimonials() {
+  const { t } = useLanguage();
+
+  const testimonials = [
+    {
+      text: t('testimonials.testimonial1.text'),
+      author: t('testimonials.testimonial1.author'),
+    },
+    {
+      text: t('testimonials.testimonial2.text'),
+      author: t('testimonials.testimonial2.author'),
+    },
+  ];
+
   return (
     <section className="py-20 px-4 bg-[#FFFDF0]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-4">
-            Testimonianze
+            {t('testimonials.title')}
           </h2>
         </div>
 

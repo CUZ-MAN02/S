@@ -1,6 +1,8 @@
 import { Anchor, Mail, Phone, MapPin } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-slate-900 text-white py-12 px-4">
       <div className="max-w-7xl mx-auto">
@@ -11,12 +13,12 @@ export default function Footer() {
               <h3 className="text-2xl font-bold">SardiniaRent</h3>
             </div>
             <p className="text-slate-400 leading-relaxed">
-              Esperienze esclusive in barca nel cuore della Sardegna. Scopri il mare come non l'hai mai visto.
+              {t('footer.description')}
             </p>
           </div>
 
           <div>
-            <h4 className="text-xl font-bold mb-4">Contatti</h4>
+            <h4 className="text-xl font-bold mb-4">{t('footer.contacts.title')}</h4>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-slate-400">
                 <Phone className="w-5 h-5 text-amber-400" />
@@ -34,16 +36,15 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xl font-bold mb-4">Orari</h4>
+            <h4 className="text-xl font-bold mb-4">{t('footer.hours.title')}</h4>
             <p className="text-slate-400 leading-relaxed">
-              Disponibili tutti i giorni durante la stagione estiva.
-              Contattaci per prenotazioni e informazioni.
+              {t('footer.hours.description')}
             </p>
           </div>
         </div>
 
         <div className="border-t border-slate-800 pt-8 text-center text-slate-400">
-          <p>&copy; {new Date().getFullYear()} SardiniaRent. Tutti i diritti riservati.</p>
+          <p>&copy; {new Date().getFullYear()} SardiniaRent. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>

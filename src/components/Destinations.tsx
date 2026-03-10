@@ -1,38 +1,41 @@
 import { MapPin } from 'lucide-react';
-
-const destinations = [
-  {
-    name: "Arcipelago della Maddalena",
-    description: "Isole incontaminate e fondali incredibili",
-    image: "/immages/arcipelago-della-maddalena.avif",
-  },
-  {
-    name: "Piscine Naturali",
-    description: "Acque turchesi e sabbia bianchissima",
-    image: "/immages/budelli-picine-naturali.webp",
-  },
-  {
-    name: "Isola di Spargi",
-    description: "Natura selvaggia e calette nascoste",
-    image: "/immages/spargi-island.webp",
-  },
-  {
-    name: "Corsica",
-    description: "L'emozione di una traversata verso le scogliere francesi",
-    image: "/immages/corsica.jpg",
-  },
-];
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Destinations() {
+  const { t } = useLanguage();
+
+  const destinations = [
+    {
+      name: t('destinations.maddalena.name'),
+      description: t('destinations.maddalena.description'),
+      image: "/immages/arcipelago-della-maddalena.avif",
+    },
+    {
+      name: t('destinations.pools.name'),
+      description: t('destinations.pools.description'),
+      image: "/immages/budelli-picine-naturali.webp",
+    },
+    {
+      name: t('destinations.spargi.name'),
+      description: t('destinations.spargi.description'),
+      image: "/immages/spargi-island.webp",
+    },
+    {
+      name: t('destinations.corsica.name'),
+      description: t('destinations.corsica.description'),
+      image: "/immages/corsica.jpg",
+    },
+  ];
+
   return (
     <section className="py-20 px-4 bg-[#FFFDF0]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-4">
-            Destinazioni
+            {t('destinations.title')}
           </h2>
           <p className="text-xl text-[#1e3a8a]">
-            Il meglio della Sardegna, visto dal mare
+            {t('destinations.subtitle')}
           </p>
         </div>
 
@@ -66,7 +69,7 @@ export default function Destinations() {
 
         <div className="text-center">
           <p className="text-lg text-[#1e3a8a] italic">
-            L'itinerario viene scelto in base alle condizioni meteo e ai tuoi desideri.
+            {t('destinations.itinerary_note')}
           </p>
         </div>
       </div>

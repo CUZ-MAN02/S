@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Send } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function ContactForm() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,9 +41,6 @@ export default function ContactForm() {
       if (insertError) throw insertError;
 
       // 2. Invio email tramite Formspree (servizio gratuito per invio email da frontend)
-      // Nota: Sostituisci 'sardiniarent@gmail.com' con il tuo endpoint se usi un servizio specifico
-      // Per semplicità e affidabilità lato client, usiamo una fetch a un servizio di mailing o simuliamo l'invio
-      // In un ambiente di produzione reale, useresti una Edge Function di Supabase o un backend.
       const response = await fetch("https://formspree.io/f/sardiniarent@gmail.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -61,7 +60,7 @@ export default function ContactForm() {
         message: '',
       });
     } catch (err) {
-      setError('Si è verificato un errore. Riprova più tardi.');
+      setError(t('contact.form.error'));
       console.error(err);
     } finally {
       setLoading(false);
@@ -80,25 +79,24 @@ export default function ContactForm() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-6">
-            Pronto a vivere il mare come non l'hai mai fatto?
+            {t('contact.title')}
           </h2>
           <p className="text-xl text-[#475569] mb-4">
-            Regalati un'esperienza esclusiva a bordo di un Riva.
+            {t('contact.subtitle1')}
           </p>
           <p className="text-xl text-[#475569]">
-            Il mare della Sardegna ti aspetta.
+            {t('contact.subtitle2')}
           </p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
           <p className="text-lg text-[#475569] mb-8 text-center">
-            Compila il modulo indicando la data e il numero di persone.
-            Ti risponderemo rapidamente per organizzare la tua esperienza ideale.
+            {t('contact.description')}
           </p>
 
           {success && (
             <div className="mb-6 p-4 bg-green-50 border-2 border-green-500 rounded-lg text-green-700 text-center">
-              Grazie! Abbiamo ricevuto la tua richiesta e ti contatteremo presto.
+              {t('contact.form.success')}
             </div>
           )}
 
@@ -108,123 +106,108 @@ export default function ContactForm() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
-                  Nome e Cognome *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
-                  placeholder="Mario Rossi"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
-                  placeholder="mario@example.com"
-                />
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 mb-2">
-                  Telefono *
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
-                  placeholder="+39 123 456 7890"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="date" className="block text-sm font-semibold text-slate-700 mb-2">
-                  Data desiderata *
-                </label>
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  required
-                  value={formData.date}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
-                />
-              </div>
-            </div>
-
+          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="guests" className="block text-sm font-semibold text-slate-700 mb-2">
-                Numero di ospiti *
+              <label className="block text-sm font-semibold text-[#1e3a8a] mb-2">
+                {t('contact.form.name')}
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                placeholder="John Doe"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-[#1e3a8a] mb-2">
+                {t('contact.form.email')}
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                placeholder="john@example.com"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-[#1e3a8a] mb-2">
+                {t('contact.form.phone')}
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                placeholder="+39 123 456 7890"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-[#1e3a8a] mb-2">
+                {t('contact.form.date')}
+              </label>
+              <input
+                type="date"
+                name="date"
+                required
+                value={formData.date}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-[#1e3a8a] mb-2">
+                {t('contact.form.guests')}
               </label>
               <select
-                id="guests"
                 name="guests"
-                required
                 value={formData.guests}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                  <option key={num} value={num}>
-                    {num} {num === 1 ? 'ospite' : 'ospiti'}
+                {[...Array(10)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}
                   </option>
                 ))}
               </select>
             </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-2">
-                Messaggio (opzionale)
+            <div className="md:col-span-2">
+              <label className="block text-sm font-semibold text-[#1e3a8a] mb-2">
+                {t('contact.form.message')}
               </label>
               <textarea
-                id="message"
                 name="message"
                 rows={4}
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:outline-none transition-colors resize-none"
-                placeholder="Raccontaci cosa hai in mente per la tua giornata ideale..."
-              />
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                placeholder={t('contact.description')}
+              ></textarea>
             </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full px-8 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                'Invio in corso...'
-              ) : (
-                <>
-                  <Send className="w-5 h-5" />
-                  Richiedi disponibilità ora
-                </>
-              )}
-            </button>
+            <div className="md:col-span-2">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold py-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  t('contact.form.sending')
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    {t('contact.form.submit')}
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>

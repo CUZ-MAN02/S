@@ -1,4 +1,7 @@
+import { useLanguage } from '../contexts/LanguageContext';
+
 export default function Experience() {
+  const { t } = useLanguage();
   const scrollToForm = () => {
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -8,25 +11,23 @@ export default function Experience() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-4">
-            Una giornata in mare
+            {t('experience.title')}
           </h2>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <p className="text-lg text-[#1e3a8a] leading-relaxed">
-              Un'esperienza privata pensata per chi vuole vivere il Nord Sardegna in totale comfort e relax.
-              Accompagnati da skipper esperti, navigherete tra calette esclusive e acque cristalline, con tempi
-              personalizzabili in base ai vostri desideri.
+              {t('experience.description1')}
             </p>
             <p className="text-lg text-[#1e3a8a] leading-relaxed">
-              Tra tuffi e momenti di relax, ogni istante è pensato per farvi vivere il mare al meglio. A bordo potrete godervi il sole, il mare e un aperitivo raffinato, mentre l’orizzonte si tinge d’oro, rendendo la giornata davvero indimenticabile.
+              {t('experience.description2')}
             </p>
             <button
               onClick={scrollToForm}
               className="mt-8 px-8 py-4 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
-              Richiedi questa esperienza
+              {t('experience.cta')}
             </button>
           </div>
 

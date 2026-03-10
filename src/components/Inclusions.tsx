@@ -1,32 +1,35 @@
 import { Check, Plus } from 'lucide-react';
-
-const included = [
-  "Skipper profesionista",
-  "Pranzo a bordo",
-  "Aperitivo di benvenuto",
-  "SUP e attrezzatura snorkeling",
-  "Assicurazione completa",
-  "Attrezzatura di bordo",
-];
-
-const extras = [
-  "Catering",
-  "Premium Wine e Champagne",
-  "Hostess/Barman",
-  "Itinerari dedicati",
-  "Eventi speciali",
-];
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Inclusions() {
+  const { t } = useLanguage();
+
+  const included = [
+    t('inclusions.included.skipper'),
+    t('inclusions.included.lunch'),
+    t('inclusions.included.welcome'),
+    t('inclusions.included.sup'),
+    t('inclusions.included.insurance'),
+    t('inclusions.included.equipment'),
+  ];
+
+  const extras = [
+    t('inclusions.extra.catering'),
+    t('inclusions.extra.wine'),
+    t('inclusions.extra.hostess'),
+    t('inclusions.extra.itineraries'),
+    t('inclusions.extra.events'),
+  ];
+
   return (
     <section className="py-20 px-4 bg-gradient-to-br from-blue-50 to-cyan-50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-4">
-            Cosa è incluso
+            {t('inclusions.title')}
           </h2>
           <p className="text-xl text-[#1e3a8a]">
-            Tutto ciò che serve per rilassarti
+            {t('inclusions.subtitle')}
           </p>
         </div>
 
@@ -34,7 +37,7 @@ export default function Inclusions() {
           <div className="bg-[#FFFDF0] rounded-2xl shadow-lg p-8 border-2 border-blue-500">
             <h3 className="text-2xl font-bold text-[#1e3a8a] mb-6 flex items-center gap-2">
               <Check className="w-6 h-6 text-blue-500" />
-              Incluso
+              {t('inclusions.included.title')}
             </h3>
             <ul className="space-y-4">
               {included.map((item, index) => (
@@ -51,7 +54,7 @@ export default function Inclusions() {
           <div className="bg-[#FFFDF0] rounded-2xl shadow-lg p-8 border-2 border-amber-500">
             <h3 className="text-2xl font-bold text-[#1e3a8a] mb-6 flex items-center gap-2">
               <Plus className="w-6 h-6 text-amber-500" />
-              Extra su richiesta
+              {t('inclusions.extra.title')}
             </h3>
             <ul className="space-y-4">
               {extras.map((item, index) => (

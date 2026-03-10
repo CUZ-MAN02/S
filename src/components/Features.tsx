@@ -1,38 +1,41 @@
 import { Sparkles, User, Sofa, Settings } from 'lucide-react';
-
-const features = [
-  {
-    icon: Sparkles,
-    title: "A bordo di un'icona del lusso italiano",
-    description: "Il Riva Bravo 38 è un simbolo di eleganza senza tempo, riconosciuto in tutto il mondo.",
-  },
-  {
-    icon: User,
-    title: "Skipper professionista",
-    description: "Conoscenza profonda del territorio e delle calette più esclusive, per un'esperienza sicura e rilassante.",
-  },
-  {
-    icon: Sofa,
-    title: "Comfort & design",
-    description: "Ampi spazi prendisole, zone d'ombra e dettagli curati per vivere il mare con stile.",
-  },
-  {
-    icon: Settings,
-    title: "Esperienza su misura",
-    description: "Ogni uscita è personalizzata in base ai tuoi desideri, ai tempi e alle condizioni del mare.",
-  },
-];
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Features() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: Sparkles,
+      title: t('features.luxury.title'),
+      description: t('features.luxury.description'),
+    },
+    {
+      icon: User,
+      title: t('features.skipper.title'),
+      description: t('features.skipper.description'),
+    },
+    {
+      icon: Sofa,
+      title: t('features.comfort.title'),
+      description: t('features.comfort.description'),
+    },
+    {
+      icon: Settings,
+      title: t('features.custom.title'),
+      description: t('features.custom.description'),
+    },
+  ];
+
   return (
     <section className="py-20 px-4 bg-[#FFFDF0]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-4">
-            Perché scegliere questa esperienza
+            {t('features.title')}
           </h2>
           <p className="text-xl text-[#475569] max-w-3xl mx-auto">
-            Scopri la Sardegna dal suo punto di vista migliore: il mare
+            {t('features.subtitle')}
           </p>
         </div>
 

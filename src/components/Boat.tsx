@@ -1,15 +1,6 @@
 import { Users, Sun, Home, Umbrella, Volume2, Sofa, ChevronLeft, ChevronRight, X, Droplets } from 'lucide-react';
 import { useRef, useState } from 'react';
-
-const specs = [
-  { icon: Users, text: "Fino a 10 ospiti a bordo" },
-  { icon: Sun, text: "Ampio prendisole anteriore e posteriore" },
-  { icon: Home, text: "Cabina interna e bagno" },
-  { icon: Umbrella, text: "Tendalino per le ore più calde" },
-  { icon: Volume2, text: "Impianto audio di qualità" },
-  { icon: Sofa, text: "Spazi pensati per il massimo relax" },
-  { icon: Droplets, text: "Doccetta esterna" },
-];
+import { useLanguage } from '../contexts/LanguageContext';
 
 const galleryImages = [
   "/immages/WhatsApp Image 2026-01-20 at 23.38.17 (1).jpeg",
@@ -24,8 +15,19 @@ const galleryImages = [
 ];
 
 export default function Boat() {
+  const { t } = useLanguage();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const specs = [
+    { icon: Users, text: t('boat.spec.guests') },
+    { icon: Sun, text: t('boat.spec.sunpad') },
+    { icon: Home, text: t('boat.spec.cabin') },
+    { icon: Umbrella, text: t('boat.spec.awning') },
+    { icon: Volume2, text: t('boat.spec.audio') },
+    { icon: Sofa, text: t('boat.spec.relax') },
+    { icon: Droplets, text: t('boat.spec.shower') },
+  ];
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -43,10 +45,9 @@ export default function Boat() {
     <section className="py-20 px-4 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-amber-400">La Barca</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-amber-400">{t('boat.title')}</h2>
           <p className="text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed">
-            Il Riva Bravo 38 unisce prestazioni fluide, comfort e un design iconico.
-            Perfetto per chi desidera un'esperienza esclusiva, elegante e curata in ogni dettaglio.
+            {t('boat.subtitle')}
           </p>
         </div>
 
@@ -62,7 +63,7 @@ export default function Boat() {
 
           <div>
             <h3 className="text-3xl font-bold mb-8 text-amber-400">
-              Caratteristiche principali
+              {t('boat.features.title')}
             </h3>
             <div className="space-y-6">
               {specs.map((spec, index) => {
@@ -82,7 +83,7 @@ export default function Boat() {
 
         <div className="mt-16 relative group">
           <h3 className="text-3xl font-bold mb-8 text-center text-amber-400">
-            Galleria
+            {t('boat.gallery.title')}
           </h3>
           
           <div className="relative flex items-center">
