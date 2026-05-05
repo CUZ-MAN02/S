@@ -10,7 +10,7 @@ interface LanguageContextType {
 
 const translations: Record<Language, Record<string, string>> = {
   it: {
-    'hero.title': 'SardiniaRent',
+    'hero.title': 'prova',
     'hero.subtitle': 'Vivi il mare della Sardegna a bordo di un\'icona senza tempo',
     'hero.boat': 'Riva Bravo 38 ',
     'hero.description': 'Linee iconiche, comfort assoluto e un\'esperienza su misura per te',
