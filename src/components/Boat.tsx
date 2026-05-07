@@ -1,5 +1,5 @@
 import { Users, Sun, Home, Umbrella, Volume2, Sofa, ChevronLeft, ChevronRight, X, Droplets } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const galleryImages = [

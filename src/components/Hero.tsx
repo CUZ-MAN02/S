@@ -1,4 +1,4 @@
-import { Anchor, ChevronDown, Globe } from 'lucide-react';
+import { Anchor, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useState, useRef, useEffect } from 'react';
 
@@ -43,7 +43,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative h-[85vh] md:h-screen flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/immages/home1.jfif')" }}>
+    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/immages/home1.jfif')" }}>
 
       {/* Language Selector */}
       <div className="absolute top-6 right-6 z-50" ref={langMenuRef}>
