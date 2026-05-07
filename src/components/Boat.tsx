@@ -19,6 +19,12 @@ export default function Boat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0;
+    }
+  }, []);
+
   const specs = [
     { icon: Users, text: t('boat.spec.guests') },
     { icon: Sun, text: t('boat.spec.sunpad') },
@@ -103,7 +109,7 @@ export default function Boat() {
                   <img
                     src={src}
                     alt={`Riva Bravo 38 Gallery ${index + 1}`}
-                    className="h-32 md:h-48 w-auto rounded-xl shadow-lg transition-all duration-300 hover:scale-110 hover:z-20 cursor-zoom-in relative"
+                    className="h-36 md:h-52 w-auto rounded-xl shadow-lg transition-all duration-300 hover:scale-110 hover:z-20 cursor-zoom-in relative"
                     onClick={() => setLightboxIndex(index)}
                   />
                 </div>

@@ -103,6 +103,9 @@ export default function Hero() {
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
         <div className="mb-6 flex items-center justify-center gap-3">
           <Anchor className="w-12 h-12 text-amber-400" />
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+            {t('hero.title')}
+          </h1>
         </div>
 
         <p className="text-xl md:text-2xl mb-6 font-light tracking-wide">
