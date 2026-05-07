@@ -103,22 +103,15 @@ export default function Hero() {
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
         <div className="mb-6 flex items-center justify-center gap-3">
           <Anchor className="w-12 h-12 text-amber-400" />
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-            {t('hero.title')}
-          </h1>
         </div>
 
-        <p className="text-xl md:text-2xl mb-4 font-light tracking-wide">
+        <p className="text-xl md:text-2xl mb-6 font-light tracking-wide">
           {t('hero.subtitle')}
         </p>
 
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 text-amber-400">
+        <h2 className="text-4xl md:text-6xl font-bold mb-8 text-amber-400">
           {t('hero.boat')}
         </h2>
-
-        <p className="text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">
-          {t('hero.description')}
-        </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button

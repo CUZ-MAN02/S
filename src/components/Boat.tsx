@@ -56,7 +56,7 @@ export default function Boat() {
             <img
               src="/immages/R.jfif"
               alt="Riva Bravo 38"
-              className="w-full h-[250px] sm:h-[500px] object-cover object-center sm:object-[70%_center]"
+              className="w-full h-[320px] sm:h-[500px] object-cover object-center sm:object-[70%_center]"
             />
           </div>
 
@@ -96,14 +96,14 @@ export default function Boat() {
 
             <div 
               ref={scrollRef} 
-              className="flex gap-6 overflow-x-auto no-scrollbar py-8 px-8 snap-x w-full justify-start md:justify-center scroll-px-8"
+              className="flex gap-4 overflow-x-auto no-scrollbar py-8 px-4 snap-x w-full justify-start scroll-px-4"
             >
               {galleryImages.map((src, index) => (
                 <div key={index} className="relative flex-shrink-0 snap-center">
                   <img
                     src={src}
                     alt={`Riva Bravo 38 Gallery ${index + 1}`}
-                    className="h-48 w-auto rounded-xl shadow-lg transition-all duration-300 hover:scale-110 hover:z-20 cursor-zoom-in relative"
+                    className="h-32 md:h-48 w-auto rounded-xl shadow-lg transition-all duration-300 hover:scale-110 hover:z-20 cursor-zoom-in relative"
                     onClick={() => setLightboxIndex(index)}
                   />
                 </div>
