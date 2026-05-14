@@ -10,7 +10,7 @@ interface LanguageContextType {
 
 const translations: Record<Language, Record<string, string>> = {
   it: {
-    'hero.title': 'SardiniaRent',
+    'hero.title': 'Mistral Charter',
     'hero.subtitle': 'Vivi il mare della Sardegna a bordo di un\'icona senza tempo',
     'hero.boat': 'Riva Bravo 38 ',
     'hero.description': 'Linee iconiche, comfort assoluto e un\'esperienza su misura per te',
@@ -125,7 +125,7 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.form.success': 'Grazie! La tua recensione è stata pubblicata.',
   },
   en: {
-    'hero.title': 'SardiniaRent',
+    'hero.title': 'Mistral Charter',
     'hero.subtitle': 'Experience the Sardinian sea on board a timeless icon',
     'hero.boat': 'Riva Bravo 38',
     'hero.description': 'Iconic lines, absolute comfort and a tailor-made experience for you',
@@ -240,7 +240,7 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.form.success': 'Thank you! Your review has been posted.',
   },
   fr: {
-    'hero.title': 'SardiniaRent',
+    'hero.title': 'Mistral Charter',
     'hero.subtitle': 'Vivez la mer de Sardaigne à bord d\'une icône intemporelle',
     'hero.boat': 'Riva Bravo 38',
     'hero.description': 'Lignes iconiques, confort absolu et une expérience sur mesure pour vous',
@@ -355,7 +355,7 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.form.success': 'Merci ! Votre avis a été publié.',
   },
   de: {
-    'hero.title': 'SardiniaRent',
+    'hero.title': 'Mistral Charter',
     'hero.subtitle': 'Erleben Sie das sardische Meer an Bord einer zeitlosen Ikone',
     'hero.boat': 'Riva Bravo 38',
     'hero.description': 'Ikonische Linien, absoluter Komfort und ein maßgeschneidertes Erlebnis für Sie',
@@ -470,7 +470,7 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.form.success': 'Vielen Dank! Ihre Bewertung wurde veröffentlicht.',
   },
   ru: {
-    'hero.title': 'SardiniaRent',
+    'hero.title': 'Mistral Charter',
     'hero.subtitle': 'Ощутите Сардинское море на борту вневременной иконы',
     'hero.boat': 'Riva Bravo 38',
     'hero.description': 'Иконические линии, абсолютный комфорт и индивидуальный подход для вас',
@@ -585,7 +585,7 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.form.success': 'Спасибо! Ваш отзыв был опубликован.',
   },
   es: {
-    'hero.title': 'SardiniaRent',
+    'hero.title': 'Mistral Charter',
     'hero.subtitle': 'Vive el mar de Cerdeña a bordo de un icono atemporal',
     'hero.boat': 'Riva Bravo 38',
     'hero.description': 'Líneas icónicas, confort absoluto y una experiencia a medida para ti',
