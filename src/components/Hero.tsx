@@ -1,4 +1,4 @@
-import { Anchor, ChevronDown, Instagram, Music } from 'lucide-react';
+import { ChevronDown, Instagram } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useState, useRef, useEffect } from 'react';
 
@@ -123,11 +123,18 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
-        <div className="mb-6 flex items-center justify-center gap-3">
-          <Anchor className="w-12 h-12 text-amber-400" />
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-            {t('hero.title')}
-          </h1>
+        <div className="mb-6 flex items-center justify-center">
+          <img
+            src="/immages/extra/Logo1.jpeg"
+            alt="Mistral Charter"
+            className="w-[260px] sm:w-[320px] md:w-[420px] lg:w-[480px] h-auto object-contain"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (img.src.includes('/immages/')) {
+                img.src = img.src.replace('/immages/', '/images/');
+              }
+            }}
+          />
         </div>
 
         <h2 className="text-4xl md:text-6xl font-bold mb-4 text-amber-400">
