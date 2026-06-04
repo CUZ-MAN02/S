@@ -125,13 +125,13 @@ export const destinationsData: Category[] = [
   {
     id: 'corsica',
     name: 'Corsica',
-    description: 'Attraversa le Bocche di Bonifacio verso la Francia',
+    description: 'Itinerario su richiesta',
     image: "/immages/corsica.jpg",
     subCategories: [
       {
         id: 'corsica-map',
         name: 'Arcipelago Lavezzi',
-        image: "/images/corsica/mappa arcipelago lavezzi.jpeg",
+        image: "/immages/corsica/mappa arcipelago lavezzi.jpeg",
         isMap: true,
         pins: [
           { id: 'piana', x: 10.8, y: 12.8, name: 'Isola Piana' },

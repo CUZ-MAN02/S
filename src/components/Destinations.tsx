@@ -54,18 +54,26 @@ export default function Destinations() {
   const isArcipelagoLavezziMap = selectedSubCategory?.id === 'corsica-map';
   const mapWrapperMaxWidthClass =
     selectedSubCategory?.id === 'spargi'
-      ? 'max-w-2xl md:max-w-lg'
+      ? 'w-full max-w-none md:max-w-lg'
       : selectedSubCategory?.id === 'la-maddalena'
-        ? 'max-w-2xl md:max-w-[40rem]'
+        ? 'w-full max-w-none md:max-w-[40rem]'
       : selectedSubCategory?.id === 'piscine-naturali'
-        ? 'max-w-2xl md:max-w-xl'
+        ? 'w-full max-w-none md:max-w-xl'
         : selectedSubCategory?.id === 'costa-map'
-          ? 'max-w-2xl md:max-w-3xl'
+          ? 'w-full max-w-none md:max-w-3xl'
           : selectedSubCategory?.id === 'corsica-map'
-            ? 'max-w-xl md:max-w-xl'
-            : 'max-w-2xl md:max-w-2xl';
-  const mapPinButtonSizePx = isArcipelagoLavezziMap ? 44 : 34;
-  const mapPinPingSizeClass = isArcipelagoLavezziMap ? 'w-14 h-14' : 'w-10 h-10';
+            ? 'w-full max-w-none md:max-w-xl'
+            : 'w-full max-w-none md:max-w-2xl';
+  const mapMobileExpandClass =
+    selectedSubCategory?.id === 'costa-map'
+      ? 'w-[calc(100%+0.5rem)] -mx-1 sm:w-full sm:mx-0'
+      : 'w-[calc(100%+1rem)] -mx-2 sm:w-full sm:mx-0';
+  const mapPinSize = isArcipelagoLavezziMap
+    ? (isMobile ? 'clamp(38px, 10vw, 54px)' : 'clamp(32px, 4vw, 44px)')
+    : (isMobile ? 'clamp(32px, 9vw, 46px)' : 'clamp(28px, 3.5vw, 38px)');
+  const mapPinPingSize = isArcipelagoLavezziMap
+    ? (isMobile ? 'clamp(52px, 14vw, 74px)' : 'clamp(44px, 5.2vw, 62px)')
+    : (isMobile ? 'clamp(44px, 12vw, 64px)' : 'clamp(38px, 4.5vw, 54px)');
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 767px)');
@@ -258,7 +266,7 @@ export default function Destinations() {
                       {category.name}
                     </h3>
                   </div>
-                  <p className="text-white/90 text-sm line-clamp-2">
+                  <p className="text-white/90 text-sm line-clamp-2 pl-7">
                     {category.description}
                   </p>
                 </div>
@@ -274,13 +282,13 @@ export default function Destinations() {
             {selectedSubCategory?.isMap ? (
               <div
                 ref={mapRef}
-                className={`relative ${mapWrapperMaxWidthClass} mx-auto mb-16 px-4 sm:px-0`}
+                className={`relative ${mapWrapperMaxWidthClass} mx-auto mb-16`}
               >
                 <div className="mb-4 text-center">
                   <h3 className="text-2xl font-bold text-[#1e3a8a] mb-1">{selectedSubCategory.name}</h3>
                   <p className="text-[#1e3a8a]/70 font-medium italic">Tocca le mete sulla mappa per esplorare</p>
                 </div>
-                <div className="relative inline-block w-full rounded-2xl overflow-hidden shadow-lg">
+                <div className={`relative rounded-2xl overflow-hidden ${mapMobileExpandClass}`}>
                   <img
                     src={selectedMapImage?.src || selectedSubCategory.image}
                     alt={selectedSubCategory.name}
@@ -301,8 +309,8 @@ export default function Destinations() {
                       style={{ 
                         left: `${isMobile && pin.mobileX !== undefined ? pin.mobileX : pin.x}%`, 
                         top: `${isMobile && pin.mobileY !== undefined ? pin.mobileY : pin.y}%`, 
-                        width: `${mapPinButtonSizePx}px`, 
-                        height: `${mapPinButtonSizePx}px`, 
+                        width: mapPinSize,
+                        height: mapPinSize,
                         transform: 'translate(-50%, -50%)',
                         zIndex: 20
                       }}
@@ -313,9 +321,12 @@ export default function Destinations() {
                       
                       {/* Effetto pulsante azzurro (raggio raddoppiato, senza pallino fisico) */}
                       <div className="relative flex items-center justify-center w-full h-full">
-                        <div className={`absolute ${mapPinPingSizeClass} rounded-full animate-ping opacity-75 ${
-                          selectedSubCategory.id === 'piscine-naturali' && pin.id === 'rosa' ? 'bg-rose-300' : 'bg-cyan-400'
-                        }`}></div>
+                        <div
+                          className={`absolute rounded-full animate-ping opacity-75 ${
+                            selectedSubCategory.id === 'piscine-naturali' && pin.id === 'rosa' ? 'bg-rose-300' : 'bg-cyan-400'
+                          }`}
+                          style={{ width: mapPinPingSize, height: mapPinPingSize }}
+                        />
                       </div>
 
                       {/* Tooltip opzionale al passaggio */}
@@ -329,43 +340,45 @@ export default function Destinations() {
             ) : null}
 
             {/* Griglia delle sottocategorie (sempre visibile o filtrata) */}
-            <div className={`grid gap-6 ${
-              displayedSubCategories.length >= 4 
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' 
-                : 'grid-cols-1 sm:grid-cols-3'
-            }`}>
-              {displayedSubCategories.map((sub) => (
-                <div
-                  key={sub.id}
-                  onClick={() => handleSubCategoryClick(sub)}
-                  className={`group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer bg-white ${
-                    selectedSubCategory?.id === sub.id ? 'ring-4 ring-amber-400 transform scale-[1.02]' : ''
-                  }`}
-                >
-                  <div className="aspect-[16/9] overflow-hidden">
-                    <img
-                      src={getSubCategoryCardImageSrc(sub)}
-                      alt={sub.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      onError={(e) => {
-                        const img = e.currentTarget as HTMLImageElement;
-                        if (img.src.includes('/images/')) {
-                          img.src = img.src.replace('/images/', '/immages/');
-                          return;
-                        }
-                        img.src = 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1000&auto=format&fit=crop';
-                      }}
-                    />
+            {!selectedSubCategory?.isMap && (
+              <div className={`grid gap-6 ${
+                displayedSubCategories.length >= 4 
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' 
+                  : 'grid-cols-1 sm:grid-cols-3'
+              }`}>
+                {displayedSubCategories.map((sub) => (
+                  <div
+                    key={sub.id}
+                    onClick={() => handleSubCategoryClick(sub)}
+                    className={`group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer bg-white ${
+                      selectedSubCategory?.id === sub.id ? 'ring-4 ring-amber-400 transform scale-[1.02]' : ''
+                    }`}
+                  >
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <img
+                        src={getSubCategoryCardImageSrc(sub)}
+                        alt={sub.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        onError={(e) => {
+                          const img = e.currentTarget as HTMLImageElement;
+                          if (img.src.includes('/images/')) {
+                            img.src = img.src.replace('/images/', '/immages/');
+                            return;
+                          }
+                          img.src = 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1000&auto=format&fit=crop';
+                        }}
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500 flex items-center justify-center p-4">
+                      <h4 className="text-white text-lg md:text-xl font-bold text-center drop-shadow-lg transform group-hover:scale-105 transition-transform">
+                        {sub.name}
+                      </h4>
+                    </div>
                   </div>
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500 flex items-center justify-center p-4">
-                    <h4 className="text-white text-lg md:text-xl font-bold text-center drop-shadow-lg transform group-hover:scale-105 transition-transform">
-                      {sub.name}
-                    </h4>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

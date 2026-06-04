@@ -17,9 +17,9 @@ function App() {
       <div className="min-h-screen relative">
         <Hero />
         <Boat />
-        <Features />
-        <Experience />
         <Destinations />
+        <Experience />
+        <Features />
         <Inclusions />
         <Pricing />
         <Testimonials />

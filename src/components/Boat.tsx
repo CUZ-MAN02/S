@@ -102,14 +102,16 @@ export default function Boat() {
 
             <div 
               ref={scrollRef} 
-              className="flex gap-4 overflow-x-auto no-scrollbar py-8 px-4 snap-x w-full justify-start scroll-px-4"
+              className="flex gap-4 overflow-x-auto no-scrollbar py-8 pl-3 pr-0 snap-x w-full justify-start scroll-px-3"
             >
               {galleryImages.map((src, index) => (
                 <div key={index} className="relative flex-shrink-0 snap-center">
                   <img
                     src={src}
                     alt={`Riva Bravo 38 Gallery ${index + 1}`}
-                    className="h-36 md:h-52 w-auto rounded-xl shadow-lg transition-all duration-300 hover:scale-110 hover:z-20 cursor-zoom-in relative"
+                    className={`h-36 md:h-52 w-auto rounded-xl shadow-lg transition-all duration-300 hover:scale-110 hover:z-20 cursor-zoom-in relative ${
+                      index === 0 ? 'origin-right' : index === galleryImages.length - 1 ? 'origin-left' : 'origin-center'
+                    }`}
                     onClick={() => setLightboxIndex(index)}
                   />
                 </div>
