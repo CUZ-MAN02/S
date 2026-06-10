@@ -38,8 +38,8 @@ export default function Hero() {
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const scrollToExperience = () => {
-    document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToBoat = () => {
+    document.getElementById('boat')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -153,7 +153,7 @@ export default function Hero() {
             {t('hero.cta.availability')}
           </button>
           <button
-            onClick={scrollToExperience}
+            onClick={scrollToBoat}
             className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold rounded-lg border-2 border-white/50 transition-all duration-300"
           >
             {t('hero.cta.experience')}

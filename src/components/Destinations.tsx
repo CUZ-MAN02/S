@@ -3,6 +3,20 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { destinationsData, Category, SubCategory, mapPinGalleries, GalleryImage } from '../data/destinationsData';
 
+const preloadImage = (src: string): Promise<void> => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => resolve(); // Continue even if preload fails
+    img.src = src;
+  });
+};
+
+const preloadGallery = (gallery: GalleryImage[], limit = 3) => {
+  const firstImages = gallery.slice(0, limit);
+  firstImages.forEach(img => preloadImage(img.src));
+};
+
 export default function Destinations() {
   const { t } = useLanguage();
   const [view, setView] = useState<'categories' | 'subcategories' | 'gallery'>('categories');
@@ -10,8 +24,10 @@ export default function Destinations() {
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory | null>(null);
   const [activeGallery, setActiveGallery] = useState<GalleryImage[]>([]);
   const [activeGalleryTitle, setActiveGalleryTitle] = useState('');
+  const [activeContent, setActiveContent] = useState<{ title?: string; subtitle?: string; description?: string } | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [lightboxSource, setLightboxSource] = useState<'map' | 'gallery'>('gallery');
+  const [showBeachPopup, setShowBeachPopup] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -79,12 +95,8 @@ export default function Destinations() {
     const mediaQuery = window.matchMedia('(max-width: 767px)');
     const onChange = () => setIsMobile(mediaQuery.matches);
     onChange();
-    if ('addEventListener' in mediaQuery) {
-      mediaQuery.addEventListener('change', onChange);
-      return () => mediaQuery.removeEventListener('change', onChange);
-    }
-    mediaQuery.addListener(onChange);
-    return () => mediaQuery.removeListener(onChange);
+    mediaQuery.addEventListener('change', onChange);
+    return () => mediaQuery.removeEventListener('change', onChange);
   }, []);
 
   const handleCategoryClick = (category: Category) => {
@@ -112,6 +124,11 @@ export default function Destinations() {
       setLightboxSource('gallery');
       setActiveGallery(sub.gallery);
       setActiveGalleryTitle(sub.name);
+      setActiveContent({
+        title: sub.title,
+        subtitle: sub.subtitle,
+        description: sub.description
+      });
       setView('gallery');
       scrollToSection();
     }
@@ -123,20 +140,26 @@ export default function Destinations() {
 
     const galleriesForMap = mapPinGalleries[subId];
     const gallery = galleriesForMap?.[pinId];
+    const pinData = selectedSubCategory.pins?.find(pin => pin.id === pinId);
+    
     setLightboxSource('map');
     setActiveGallery(gallery || []);
     setActiveGalleryTitle(pinName);
-    setView('gallery');
-    scrollToSection();
-    if (gallery && gallery.length > 0) setLightboxIndex(0);
+    setActiveContent({
+      title: pinData?.title || pinName,
+      subtitle: pinData?.subtitle,
+      description: pinData?.description || "Descrizione in arrivo..."
+    });
+    setShowBeachPopup(true);
   };
 
   const closeLightbox = () => {
     setLightboxIndex(null);
-    if (lightboxSource === 'map') {
-      setView('subcategories');
-      scrollToSection();
-    }
+  };
+
+  const closeBeachPopup = () => {
+    setShowBeachPopup(false);
+    setLightboxIndex(null);
   };
 
   const handleBack = () => {
@@ -214,6 +237,32 @@ export default function Destinations() {
       scrollToMap();
     }
   }, [view, selectedSubCategory?.id, selectedSubCategory?.isMap]);
+
+  // Preload images when a subcategory with map is selected
+  useEffect(() => {
+    if (selectedSubCategory?.isMap && selectedSubCategory.pins) {
+      const subId = selectedSubCategory.id;
+      const galleriesForMap = mapPinGalleries[subId];
+      
+      // Preload first 3 images for each pin on the map
+      selectedSubCategory.pins.forEach(pin => {
+        const pinGallery = galleriesForMap?.[pin.id];
+        if (pinGallery) {
+          preloadGallery(pinGallery, 3);
+        }
+      });
+    } else if (selectedSubCategory && !selectedSubCategory.isMap && selectedSubCategory.gallery) {
+      // Preload for non-map subcategories too
+      preloadGallery(selectedSubCategory.gallery, 3);
+    }
+  }, [selectedSubCategory]);
+
+  // Preload all images when beach popup opens (user is reading description)
+  useEffect(() => {
+    if (showBeachPopup && activeGallery.length > 0) {
+      preloadGallery(activeGallery, activeGallery.length); // Preload all now
+    }
+  }, [showBeachPopup, activeGallery]);
 
   return (
     <section ref={sectionRef} id="destinations" className="py-12 md:py-20 px-4 bg-[#FFFDF0] min-h-[600px] transition-all duration-500 overflow-hidden">
@@ -385,8 +434,24 @@ export default function Destinations() {
         {/* Level 3: Gallery */}
         {view === 'gallery' && (
           <div className="animate-in fade-in zoom-in duration-500">
-            <h3 className="text-2xl font-bold text-[#1e3a8a] mb-8 text-center">{activeGalleryTitle}</h3>
+            {/* Content Block */}
+            <div className="max-w-4xl mx-auto mb-12 p-6 md:p-8 bg-gradient-to-br from-white to-amber-50 rounded-2xl shadow-xl border border-amber-200">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1e3a8a] mb-3">
+                {activeContent?.title || activeGalleryTitle}
+              </h2>
+              {activeContent?.subtitle && (
+                <p className="text-xl md:text-2xl text-amber-600 italic font-medium mb-4">
+                  {activeContent.subtitle}
+                </p>
+              )}
+              {activeContent?.description && (
+                <p className="text-lg text-[#1e3a8a]/80 leading-relaxed">
+                  {activeContent.description}
+                </p>
+              )}
+            </div>
             
+            {/* Gallery */}
             {activeGallery.length > 0 ? (
               <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
                 {activeGallery.map((img, index) => (
@@ -401,7 +466,7 @@ export default function Destinations() {
                     <img
                       src={img.src}
                       alt={img.alt}
-                      loading="lazy"
+                      loading={index < 3 ? "eager" : "lazy"}
                       className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-105"
                       onError={applyImagesFallback}
                     />
@@ -423,6 +488,72 @@ export default function Destinations() {
           </div>
         )}
 
+        {/* Beach Detail Popup */}
+        {showBeachPopup && (
+          <div 
+            className="fixed inset-0 z-[90] bg-black/80 backdrop-blur-sm transition-all flex items-center justify-center p-4 md:p-8"
+            onClick={closeBeachPopup}
+          >
+            <div 
+              className="bg-[#FFFDF0] rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-300 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                type="button"
+                onClick={closeBeachPopup}
+                className="absolute top-4 right-4 text-[#1e3a8a] hover:text-amber-600 transition-colors z-10 p-2"
+              >
+                <X className="w-8 h-8" />
+              </button>
+
+              {/* Content */}
+              <div className="p-6 md:p-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#1e3a8a] mb-3">
+                  {activeContent?.title || activeGalleryTitle}
+                </h2>
+                {activeContent?.subtitle && (
+                  <p className="text-xl md:text-2xl text-amber-600 italic font-medium mb-6">
+                    {activeContent.subtitle}
+                  </p>
+                )}
+                {activeContent?.description && (
+                  <p className="text-lg text-[#1e3a8a]/80 leading-relaxed mb-8">
+                    {activeContent.description}
+                  </p>
+                )}
+
+                {/* Gallery strip */}
+                {activeGallery.length > 0 && (
+                  <div>
+                    <h3 className="text-xl font-bold text-[#1e3a8a] mb-4">Galleria</h3>
+                    <div className="flex gap-4 overflow-x-auto pb-6 no-scrollbar">
+                      {activeGallery.map((img, index) => (
+                        <div 
+                          key={index} 
+                          className="flex-shrink-0 w-48 h-36 md:w-72 md:h-48 rounded-2xl overflow-hidden shadow-lg cursor-zoom-in"
+                          onClick={() => {
+                            setLightboxSource('gallery');
+                            setLightboxIndex(index);
+                          }}
+                        >
+                          <img
+                            src={img.src}
+                            alt={img.alt}
+                            loading={index < 3 ? "eager" : "lazy"}
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                            onError={applyImagesFallback}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Itinerary Note (Only on Level 1) */}
         {view === 'categories' && (
           <div className="text-center mt-12 animate-in fade-in slide-in-from-top-2 duration-700">
@@ -435,7 +566,7 @@ export default function Destinations() {
         {/* Lightbox */}
         {lightboxIndex !== null && activeGallery.length > 0 && (
           <div
-            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-8 cursor-zoom-out backdrop-blur-sm transition-all"
+            className="fixed inset-0 z-[110] bg-black/95 flex items-center justify-center p-4 md:p-8 cursor-zoom-out backdrop-blur-sm transition-all"
             onClick={closeLightbox}
           >
             <button
@@ -454,15 +585,15 @@ export default function Destinations() {
               <>
                 <button 
                   onClick={prevImage}
-                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white hover:text-amber-400 transition-colors z-50 p-2 bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-md"
+                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white hover:text-amber-400 transition-colors z-50 p-1.5 md:p-3 bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-md"
                 >
-                  <ChevronLeft className="w-8 h-8 md:w-12 md:h-12" />
+                  <ChevronLeft className="w-5 h-5 md:w-10 md:h-10" />
                 </button>
                 <button 
                   onClick={nextImage}
-                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white hover:text-amber-400 transition-colors z-50 p-2 bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-md"
+                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white hover:text-amber-400 transition-colors z-50 p-1.5 md:p-3 bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-md"
                 >
-                  <ChevronRight className="w-8 h-8 md:w-12 md:h-12" />
+                  <ChevronRight className="w-5 h-5 md:w-10 md:h-10" />
                 </button>
               </>
             )}

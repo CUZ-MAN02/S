@@ -173,15 +173,19 @@ export default function ContactForm() {
               <label className="block text-sm font-semibold text-[#1e3a8a] mb-2">
                 {t('contact.form.date')}*
               </label>
-              <div className="relative group">
+              <div className="relative w-full">
                 <input
                   type="date"
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
-                  className={`w-full pl-11 pr-4 py-3 rounded-lg border ${errors.date ? 'border-red-500 bg-red-50' : 'border-slate-200'} focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all min-h-[50px] cursor-pointer`}
+                  className={`w-full pl-11 pr-4 py-3 rounded-lg border bg-white ${
+                    errors.date ? 'border-red-500 bg-red-50' : 'border-slate-200'
+                  } focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all appearance-none cursor-pointer block`}
                 />
-                <Calendar className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.date ? 'text-red-400' : 'text-slate-400'} pointer-events-none group-focus-within:text-blue-500 transition-colors`} />
+                <Calendar className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${
+                  errors.date ? 'text-red-400' : 'text-slate-400'
+                } pointer-events-none transition-colors z-0`} />
               </div>
               {errors.date && (
                 <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
