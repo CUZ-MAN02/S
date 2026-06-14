@@ -98,6 +98,8 @@ export const destinationsData: Category[] = [
             id: 'granara', 
             x: 76.0, 
             y: 62.0, 
+            mobileX: 76.0, 
+            mobileY: 58.0, 
             name: 'Cala Granara',
             title: 'Cala Granara',
             subtitle: 'La spiaggia del grano e dei sapori di un tempo',

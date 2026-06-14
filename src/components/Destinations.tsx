@@ -68,6 +68,7 @@ export default function Destinations() {
   }, [selectedCategory]);
 
   const isArcipelagoLavezziMap = selectedSubCategory?.id === 'corsica-map';
+  const isSpargiMap = selectedSubCategory?.id === 'spargi';
   const mapWrapperMaxWidthClass =
     selectedSubCategory?.id === 'spargi'
       ? 'w-full max-w-none md:max-w-lg'
@@ -75,7 +76,7 @@ export default function Destinations() {
         ? 'w-full max-w-none md:max-w-[40rem]'
       : selectedSubCategory?.id === 'piscine-naturali'
         ? 'w-full max-w-none md:max-w-xl'
-        : selectedSubCategory?.id === 'costa-map'
+      : selectedSubCategory?.id === 'costa-map'
           ? 'w-full max-w-none md:max-w-3xl'
           : selectedSubCategory?.id === 'corsica-map'
             ? 'w-full max-w-none md:max-w-xl'
@@ -86,10 +87,14 @@ export default function Destinations() {
       : 'w-[calc(100%+1rem)] -mx-2 sm:w-full sm:mx-0';
   const mapPinSize = isArcipelagoLavezziMap
     ? (isMobile ? 'clamp(38px, 10vw, 54px)' : 'clamp(32px, 4vw, 44px)')
-    : (isMobile ? 'clamp(32px, 9vw, 46px)' : 'clamp(28px, 3.5vw, 38px)');
+    : isSpargiMap
+      ? (isMobile ? 'clamp(24px, 7vw, 36px)' : 'clamp(28px, 3.5vw, 38px)')
+      : (isMobile ? 'clamp(32px, 9vw, 46px)' : 'clamp(28px, 3.5vw, 38px)');
   const mapPinPingSize = isArcipelagoLavezziMap
     ? (isMobile ? 'clamp(52px, 14vw, 74px)' : 'clamp(44px, 5.2vw, 62px)')
-    : (isMobile ? 'clamp(44px, 12vw, 64px)' : 'clamp(38px, 4.5vw, 54px)');
+    : isSpargiMap
+      ? (isMobile ? 'clamp(34px, 10vw, 50px)' : 'clamp(38px, 4.5vw, 54px)')
+      : (isMobile ? 'clamp(44px, 12vw, 64px)' : 'clamp(38px, 4.5vw, 54px)');
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 767px)');
